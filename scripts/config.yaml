@@ -1,0 +1,4 @@
+input_dir: "./data/bookings"
+output_file: "./output/processed_results.csv"
+start_date: "2019-01-01"
+end_date: "2019-12-31"
