@@ -29,16 +29,11 @@ def read_bookings_data(spark, bookings_path):
 
     passengers_df = passengers_df.select(
         'envelopNumber',
-        'creationDate',
         'nbPassengers',
-        'isMarketingBlockspace',
-        'isTechnicalLastUpdater',
         'passenger.uci',
-        'passenger.passengerType',
         'passenger.tattoo',
-        'passenger.weight',
-        'passenger.category',
-        'passenger.crid'
+        'passenger.age',
+        'passenger.passengerType'
     )
 
     # Exploding the products list to flatten flight details
@@ -56,9 +51,7 @@ def read_bookings_data(spark, bookings_path):
         'product.flight.departureDate',
         'product.flight.arrivalDate',
         'product.flight.operatingAirline',
-        'product.flight.operatingFlightNumber',
         'product.flight.marketingAirline',
-        'product.flight.marketingFlightNumber'
     )
 
     # Join the passenger and product data on envelopNumber
@@ -79,14 +72,8 @@ def read_airports_data(spark, file_path):
         StructField("Country", StringType(), True),
         StructField("IATA", StringType(), True),
         StructField("ICAO", StringType(), True),
-        StructField("Latitude", DoubleType(), True),
-        StructField("Longitude", DoubleType(), True),
-        StructField("Altitude", IntegerType(), True),
-        StructField("Timezone", StringType(), True),
-        StructField("DST", StringType(), True),
-        StructField("TzDatabaseTimeZone", StringType(), True),
-        StructField("Type", StringType(), True),
-        StructField("Source", StringType(), True)
+        StructField("Timezone", StringType(), True)
+
     ])
 
     df = spark.read.csv(file_path, schema=schema, header=False, sep=",", nullValue="")
@@ -97,14 +84,7 @@ def read_airports_data(spark, file_path):
         F.col("City"),
         F.col("Country"),
         F.col("ICAO"),
-        F.col("Latitude"),
-        F.col("Longitude"),
-        F.col("Altitude"),
         F.col("Timezone"),
-        F.col("DST"),
-        F.col("TzDatabaseTimeZone"),
-        F.col("Type"),
-        F.col("Source")
     )
 
     return df

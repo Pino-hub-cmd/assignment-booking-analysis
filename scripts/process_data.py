@@ -45,8 +45,14 @@ def main():
     bookings_df.show()
 
     # Aggregation to get the number of passengers per country, per day of week, per season
+
+    # Aggregation to get the number of passengers and average age per country, per day of week, per season.
+    # Did a tentative to include age and type...
     result = bookings_df.groupBy("destination_country", "weekday", "season").agg(
-        F.countDistinct("uci").alias("num_passengers")
+        F.countDistinct("uci").alias("num_passengers"),
+        F.avg("age").alias("avg_age"),  # Calculate the average age per group
+        F.sum(F.when(bookings_df.passengerType == 'Adt', 1).otherwise(0)).alias("num_adults"),  #  adults
+        F.sum(F.when(bookings_df.passengerType == 'Chd', 1).otherwise(0)).alias("num_children")  # children
     ).orderBy(F.desc("num_passengers"))
 
     result.coalesce(1).write.mode("overwrite").csv(args.aggregated_output_file, header=True)
