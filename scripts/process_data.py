@@ -45,8 +45,6 @@ def main():
     bookings_df.show()
 
     # Aggregation to get the number of passengers per country, per day of week, per season
-
-    # Aggregation to get the number of passengers and average age per country, per day of week, per season.
     # Did a tentative to include age and type...
     result = bookings_df.groupBy("destination_country", "weekday", "season").agg(
         F.countDistinct("uci").alias("num_passengers"),
