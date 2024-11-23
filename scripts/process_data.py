@@ -31,7 +31,7 @@ def main():
         (bookings_df.marketingAirline == "KL")
     )
 
-    # Filter bookings based on the specified date range
+    # Filter bookings based on the specified input date
     bookings_df = bookings_df.filter(
         (F.to_date(bookings_df.departureDate, "yyyy-MM-dd") >= F.to_date(F.lit(args.start_date), "yyyy-MM-dd")) &
         (F.to_date(bookings_df.departureDate, "yyyy-MM-dd") <= F.to_date(F.lit(args.end_date), "yyyy-MM-dd"))
@@ -40,11 +40,6 @@ def main():
     # Join the bookings data with airport country mapping
     bookings_df = join_with_airports(bookings_df, airports_df)
 
-    print('bookings_df after filtering Netherlands s airports and KL and date range')
-    bookings_df.printSchema()
-    bookings_df.show(5)
-
-    # Add weekday and season information
     bookings_df = add_weekday_and_season(bookings_df)
 
     # Aggregation to get the number of passengers per country, per day of week, per season
@@ -52,7 +47,6 @@ def main():
         F.countDistinct("uci").alias("num_passengers")
     ).orderBy(F.desc("num_passengers"))
 
-    # Use coalesce(1) to combine the output into a single CSV file
     result.coalesce(1).write.mode("overwrite").csv(args.aggregated_output_file, header=True)
 
     print(f"Aggregation complete, results saved to: {args.aggregated_output_file}")
