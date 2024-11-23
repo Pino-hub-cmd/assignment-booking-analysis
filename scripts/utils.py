@@ -14,6 +14,10 @@ def read_bookings_data(spark, bookings_path):
     Reads and flattens the booking data
     """
     df = spark.read.json(bookings_path)
+
+    print('Schema of the raw json booking with some sample;')
+    df.printSchema() #such a json!
+
     passengers_df = df.select(
         'event.DataElement.travelrecord.envelopNumber',
         'event.DataElement.travelrecord.creationDate',
