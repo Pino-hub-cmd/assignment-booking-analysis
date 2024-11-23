@@ -1,183 +1,196 @@
-import logging
 from pyspark.sql import functions as F
-from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def create_spark_session():
+    from pyspark.sql import SparkSession
+    spark = SparkSession.builder \
+        .appName("KLM Booking Analysis") \
+        .config("spark.sql.legacy.timeParserPolicy", "LEGACY") \
+        .getOrCreate()
+    return spark
 
-def initialize_spark_session(app_name="BookingDataProcessing"):
-    """Initialize a Spark session."""
-    logger.info("Initializing Spark session...")
-    try:
-        spark = SparkSession.builder.appName(app_name).getOrCreate()
-        logger.info("Spark session initialized successfully.")
-        return spark
-    except Exception as e:
-        logger.error(f"Failed to initialize Spark session: {str(e)}")
-        raise
+def read_bookings_data(spark, bookings_path):
+    """
+    Reads and flattens the booking data
+    """
+    df = spark.read.json(bookings_path)
+    passengers_df = df.select(
+        'event.DataElement.travelrecord.envelopNumber',
+        'event.DataElement.travelrecord.creationDate',
+        'event.DataElement.travelrecord.nbPassengers',
+        'event.DataElement.travelrecord.isMarketingBlockspace',
+        'event.DataElement.travelrecord.isTechnicalLastUpdater',
+        'event.DataElement.travelrecord.passengersList'
+    ).withColumn('passenger', F.explode('passengersList')).drop('passengersList')
 
-def load_json_data(spark, file_path):
-    """Load JSON data from the given file path."""
-    logger.info(f"Loading data from {file_path}...")
-    try:
-        df = spark.read.json(file_path)
-        logger.info(f"Data loaded successfully with {df.count()} rows.")
-        df.printSchema()  # Print schema for debugging
-        return df
-    except Exception as e:
-        logger.error(f"Failed to load JSON data from {file_path}: {str(e)}")
-        raise
+    passengers_df = passengers_df.select(
+        'envelopNumber',
+        'creationDate',
+        'nbPassengers',
+        'isMarketingBlockspace',
+        'isTechnicalLastUpdater',
+        'passenger.uci',
+        'passenger.passengerType',
+        'passenger.tattoo',
+        'passenger.weight',
+        'passenger.category',
+        'passenger.crid'
+    )
 
-def load_airport_data(spark, airport_country_mapping):
-    """Load airport country mapping data and assign column names."""
-    logger.info(f"Loading airport data from {airport_country_mapping}...")
+    # Exploding the products list to flatten flight details
+    products_df = df.select(
+        'event.DataElement.travelrecord.envelopNumber',
+        'event.DataElement.travelrecord.productsList'
+    ).withColumn('product', F.explode('productsList')).drop('productsList')
 
-    # Define the column names explicitly
-    columns = [
-        "AirportID", "Name", "City", "Country", "IATA", "ICAO", "Latitude", "Longitude",
-        "Altitude", "Timezone", "DST", "TzDatabaseTimezone", "Type", "Source"
-    ]
+    # Flatten product details
+    products_df = products_df.select(
+        'envelopNumber',
+        'product.bookingStatus',
+        'product.flight.originAirport',
+        'product.flight.destinationAirport',
+        'product.flight.departureDate',
+        'product.flight.arrivalDate',
+        'product.flight.operatingAirline',
+        'product.flight.operatingFlightNumber',
+        'product.flight.marketingAirline',
+        'product.flight.marketingFlightNumber'
+    )
 
-    # Load the data without headers
-    airport_df = spark.read.csv(airport_country_mapping, header=False, inferSchema=True)
+    # Join the passenger and product data on envelopNumber
+    df_flat = passengers_df.join(products_df, 'envelopNumber', 'inner')
 
-    # Assign the column names to the dataframe
-    airport_df = airport_df.toDF(*columns)
+    return df_flat
 
-    # Print columns to verify
-    logger.info(f"Column names in airport data: {airport_df.columns}")
 
-    # Ensure the 'Country' column is stripped of any leading/trailing spaces and is in correct case
-    airport_df = airport_df.withColumn("Country", F.trim(F.col("Country")))
+def read_airports_data(spark, file_path):
+    """
+    Read the airports data and flatten the structure, renaming necessary columns.
+    """
+    # Defined schema from md file
+    schema = StructType([
+        StructField("AirportID", IntegerType(), True),
+        StructField("Name", StringType(), True),
+        StructField("City", StringType(), True),
+        StructField("Country", StringType(), True),
+        StructField("IATA", StringType(), True),
+        StructField("ICAO", StringType(), True),
+        StructField("Latitude", DoubleType(), True),
+        StructField("Longitude", DoubleType(), True),
+        StructField("Altitude", IntegerType(), True),
+        StructField("Timezone", StringType(), True),
+        StructField("DST", StringType(), True),
+        StructField("TzDatabaseTimeZone", StringType(), True),
+        StructField("Type", StringType(), True),
+        StructField("Source", StringType(), True)
+    ])
 
-    logger.info(f"Airport data loaded successfully with {airport_df.count()} rows.")
-    return airport_df
-def handle_invalid_json(df):
-    """Handle invalid or corrupted JSON entries."""
-    logger.info("Handling invalid JSON entries...")
-    try:
-        # Drop rows with invalid JSON or missing important data
-        df_cleaned = df.filter(df.event.isNotNull())
-        logger.info(f"Handled invalid JSON entries, resulting in {df_cleaned.count()} rows.")
-        return df_cleaned
-    except Exception as e:
-        logger.error(f"Failed to handle invalid JSON: {str(e)}")
-        raise
+    df = spark.read.csv(file_path, schema=schema, header=False, sep=",", nullValue="")
 
-def flatten_nested_structures(df):
-    """Flatten nested structures to make the data more accessible."""
-    logger.info("Flattening nested structures...")
-    try:
-        # Exploding arrays and structuring the data for easier access
-        df_exploded = df.withColumn("passenger", F.explode("event.DataElement.travelrecord.passengersList"))
-        logger.info(f"Flattened data with {df_exploded.count()} rows.")
-        return df_exploded
-    except Exception as e:
-        logger.error(f"Failed to flatten nested structures: {str(e)}")
-        raise
+    df = df.select(
+        F.col("IATA").alias("AirportIATA"),
+        F.col("Name"),
+        F.col("City"),
+        F.col("Country"),
+        F.col("ICAO"),
+        F.col("Latitude"),
+        F.col("Longitude"),
+        F.col("Altitude"),
+        F.col("Timezone"),
+        F.col("DST"),
+        F.col("TzDatabaseTimeZone"),
+        F.col("Type"),
+        F.col("Source")
+    )
 
-def filter_kl_flights(booking_df, airport_df, country):
-    try:
-        # Exploding the 'productsList' to handle individual elements
-        flattened_booking_df = booking_df.withColumn(
-            "product", F.explode(F.col("event.DataElement.travelrecord.productsList"))
-        )
+    return df
 
-        # Accessing the 'departureDate' from 'flight' after explosion
-        flattened_booking_df = flattened_booking_df.withColumn(
-            "departureDate",
-            F.to_date(F.col("product.flight.departureDate"), "yyyy-MM-dd")
-        )
+def join_with_airports(bookings_df, airports_df):
 
-        # Filter KL flights (assuming this is part of your logic)
-        # Example filtering condition (you can modify this as needed)
-        kl_flights_df = flattened_booking_df.filter(
-            (F.col("product.aircraftType") == "KL") &
-            (F.col("product.bookingClass") == "Y") &
-            (F.col("product.type") == "Flight")
-        )
+    bookings_df_alias = bookings_df.alias("bookings")
+    airports_df_alias = airports_df.alias("airports")
 
-        # If you want to join with airport data, assuming you're filtering by country
-        kl_flights_df = kl_flights_df.join(
-            airport_df,
-            kl_flights_df["product.flight.originAirport"] == airport_df["IATA"],
-            how="left"
-        ).filter(airport_df["Country"] == country)
+    # Perform the join for origin airport
+    df = bookings_df_alias.join(airports_df_alias, bookings_df_alias.destinationAirport == airports_df_alias.AirportIATA, "inner") \
+        .select(
+        bookings_df_alias["*"],
+        airports_df_alias["Country"].alias("destination_country")
+    )
+    return df
 
-        return kl_flights_df
+def add_weekday_and_season(df):
+    """
+    Add columns for the day of the week and season based on the departure date.
+    """
+    # Convert departureDate to timestamp to extract weekday
+    df = df.withColumn("departureDate", F.to_timestamp("departureDate"))
 
-    except Exception as e:
-        print(f"ERROR:utils:Failed to filter KL flights: {str(e)}")
-        raise e
+    # Extract the weekday (0=Sunday, 1=Monday, ..., 6=Saturday)
+    df = df.withColumn("weekday", F.dayofweek("departureDate"))
 
-def deduplicate_passengers(booking_df):
-    try:
-        # Exploding 'productsList' and 'passengersList' for further processing
-        flattened_booking_df = booking_df.withColumn(
-            "product", F.explode(F.col("event.DataElement.travelrecord.productsList"))
-        )
+    # Assuming season is based on months (example for Northern Hemisphere):
+    df = df.withColumn(
+        "season",
+        F.when((F.month("departureDate") >= 3) & (F.month("departureDate") <= 5), "Spring")
+        .when((F.month("departureDate") >= 6) & (F.month("departureDate") <= 8), "Summer")
+        .when((F.month("departureDate") >= 9) & (F.month("departureDate") <= 11), "Fall")
+        .otherwise("Winter")
+    )
+    return df
 
-        flattened_booking_df = flattened_booking_df.withColumn(
-            "passenger", F.explode(F.col("event.DataElement.travelrecord.passengersList"))
-        )
+def process_and_aggregate(bookings_df):
+    # Ensure 'departureDate' is in the correct format
+    bookings_df = bookings_df.withColumn('departureDate', F.to_date('departureDate', 'yyyy-MM-dd'))
 
-        # Adjust the path to correctly reference 'journeyInTattoo' and other columns
-        flattened_booking_df = flattened_booking_df.withColumn(
-            "journeyInTattoo", F.col("product.journeyInTattoo")  # Adjusted path
-        )
+    # Add weekday and season columns
+    bookings_df = bookings_df.withColumn('weekday', F.dayofweek('departureDate')) \
+        .withColumn('season',
+                    F.when((F.month('departureDate') >= 3) & (F.month('departureDate') <= 5), 'Spring')
+                    .when((F.month('departureDate') >= 6) & (F.month('departureDate') <= 8), 'Summer')
+                    .when((F.month('departureDate') >= 9) & (F.month('departureDate') <= 11), 'Fall')
+                    .otherwise('Winter'))
 
-        # Create 'passenger_id' from 'tattoo' or another unique identifier
-        flattened_booking_df = flattened_booking_df.withColumn(
-            "passenger_id", F.col("passenger.tattoo")  # Assuming 'tattoo' is the passenger ID
-        )
+    # Group by origin_country, destination_country, weekday, and season, then count distinct passengers
+    result = bookings_df.groupBy('origin_country', 'destination_country', 'weekday', 'season') \
+        .agg(F.countDistinct('uci').alias('num_passengers')) \
+        .orderBy(F.desc('num_passengers'))
 
-        # Deduplicate based on 'passenger_id', 'journeyInTattoo', and correct 'originAirport' reference
-        df_dedup = flattened_booking_df.dropDuplicates(
-            ["passenger_id", "journeyInTattoo", "product.flight.originAirport", "departureDate"]
-        )
+    return result
 
-        return df_dedup
+def filter_confirmed_bookings(bookings_df):
+    # Filter the bookings dataframe to include only those with confirmed booking status
+    return bookings_df.filter(bookings_df.bookingStatus == 'CONFIRMED')
 
-    except Exception as e:
-        print(f"ERROR:utils:Failed to deduplicate passengers: {str(e)}")
-        raise e
+def filter_flights_from_netherlands(bookings_df):
+    # Define a list of airport codes for the Netherlands
+    netherlands_airports = ['AMS', 'RTM', 'EIN']
 
-def adjust_timezone_and_day(df, airport_df):
-    """Adjust the departure datetime by airport timezone."""
-    logger.info("Adjusting departure times to local time...")
-    try:
-        df = df.join(airport_df, df.originAirport == airport_df.IATA, "left")
-        df = df.withColumn(
-            "local_departure_datetime",
-            F.from_utc_timestamp(F.col("departureDate"), F.col("timezone"))
-        )
-        logger.info("Timezone adjustment completed.")
-        return df
-    except Exception as e:
-        logger.error(f"Failed to adjust timezone: {str(e)}")
-        raise
+    # Filter the bookings to only include flights departing from these airports
+    return bookings_df.filter(bookings_df.originAirport.isin(netherlands_airports))
 
-def aggregate_bookings(df):
-    """Perform aggregation on the booking data."""
-    logger.info("Aggregating bookings...")
-    try:
-        aggregated_df = df.groupBy("originAirport", "departureDate").agg(
-            F.sum("nbPassengers").alias("total_passengers"),
-            F.countDistinct("passenger_id").alias("unique_passenger_count")
-        )
-        logger.info("Aggregation completed.")
-        return aggregated_df
-    except Exception as e:
-        logger.error(f"Failed to aggregate bookings: {str(e)}")
-        raise
 
-def save_to_csv(df, output_path):
-    """Save the DataFrame to a CSV file."""
-    logger.info(f"Saving results to {output_path}...")
-    try:
-        df.coalesce(1).write.option("header", "true").mode("overwrite").csv(output_path)
-        logger.info(f"Results saved to {output_path}.")
-    except Exception as e:
-        logger.error(f"Failed to save results to CSV: {str(e)}")
-        raise
+def add_weekday_and_season(bookings_df):
+    # Remove the 'Z' and reformat the timestamp into a parsable format
+    bookings_df = bookings_df.withColumn(
+        "departureDate",
+        F.regexp_replace(bookings_df.departureDate, "Z$", "")
+    )
+
+    # Convert the departureDate to a date object and extract the weekday (0=Monday, 6=Sunday)
+    bookings_df = bookings_df.withColumn(
+        "departureDate", F.to_timestamp(bookings_df.departureDate, "yyyy-MM-dd'T'HH:mm:ss")
+    )
+
+    # Extract weekday (0 = Monday, 6 = Sunday)
+    bookings_df = bookings_df.withColumn("weekday", F.dayofweek(bookings_df.departureDate))
+
+    # Define the seasons based on the month of the departure date
+    bookings_df = bookings_df.withColumn(
+        "season",
+        F.when((F.month(bookings_df.departureDate) >= 3) & (F.month(bookings_df.departureDate) <= 5), "Spring")
+        .when((F.month(bookings_df.departureDate) >= 6) & (F.month(bookings_df.departureDate) <= 8), "Summer")
+        .when((F.month(bookings_df.departureDate) >= 9) & (F.month(bookings_df.departureDate) <= 11), "Fall")
+        .otherwise("Winter")
+    )
+
+    return bookings_df

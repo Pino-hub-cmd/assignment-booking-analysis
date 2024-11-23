@@ -1,0 +1,669 @@
+destination_country,weekday,season,num_passengers
+United Kingdom,2,Spring,7635
+United States,2,Spring,7534
+United Kingdom,1,Spring,7423
+Germany,2,Spring,7321
+United Kingdom,5,Spring,7154
+France,2,Spring,7102
+United Kingdom,3,Spring,7019
+China,1,Spring,6968
+United Kingdom,4,Spring,6738
+United Kingdom,6,Spring,6543
+Germany,5,Spring,6538
+Germany,1,Spring,6388
+Germany,3,Spring,6302
+United States,3,Spring,6037
+United Kingdom,7,Spring,6022
+France,4,Spring,5781
+United States,1,Spring,5742
+China,2,Spring,5688
+Germany,6,Spring,5612
+Germany,4,Spring,5537
+Denmark,2,Spring,5534
+Denmark,1,Spring,5344
+Italy,1,Spring,5307
+Italy,2,Spring,5181
+United States,6,Summer,5137
+China,6,Spring,5029
+Norway,2,Spring,4983
+United States,6,Spring,4774
+China,4,Spring,4755
+Sweden,1,Spring,4725
+United States,5,Spring,4689
+Italy,5,Spring,4681
+Spain,3,Spring,4557
+United Kingdom,2,Summer,4537
+Italy,4,Spring,4488
+Germany,6,Summer,4466
+China,7,Spring,4450
+France,3,Spring,4394
+Norway,3,Spring,4391
+France,5,Spring,4268
+France,7,Summer,4255
+India,3,Fall,4210
+Philippines,5,Summer,4206
+United Kingdom,6,Summer,4203
+Switzerland,6,Spring,4192
+Norway,7,Spring,4153
+Norway,6,Spring,4144
+Italy,7,Spring,4143
+United Kingdom,3,Summer,4141
+Spain,4,Spring,4137
+Norway,5,Spring,4134
+Spain,6,Spring,4134
+Japan,2,Spring,4099
+France,1,Summer,4083
+France,2,Summer,4061
+United Kingdom,5,Summer,3977
+Spain,1,Spring,3969
+France,7,Spring,3964
+Spain,7,Spring,3958
+Italy,3,Spring,3916
+United States,3,Summer,3890
+United States,7,Summer,3837
+Tanzania,3,Fall,3831
+Sweden,2,Spring,3821
+Spain,5,Spring,3778
+India,2,Spring,3706
+Canada,5,Spring,3699
+Switzerland,1,Spring,3666
+Japan,1,Spring,3663
+Denmark,4,Spring,3632
+Germany,3,Summer,3612
+Poland,5,Summer,3606
+United Kingdom,4,Summer,3606
+Finland,6,Spring,3604
+Taiwan,3,Spring,3527
+Denmark,6,Spring,3525
+Nigeria,3,Spring,3512
+Denmark,5,Spring,3483
+Denmark,7,Spring,3482
+China,5,Spring,3471
+United Arab Emirates,5,Fall,3462
+Italy,6,Spring,3450
+India,1,Spring,3444
+Germany,7,Spring,3424
+United States,4,Summer,3396
+South Korea,4,Spring,3384
+Kuwait,4,Spring,3360
+Sweden,7,Spring,3360
+Germany,1,Summer,3348
+Singapore,1,Spring,3321
+Poland,3,Spring,3303
+United Arab Emirates,1,Summer,3272
+Philippines,1,Summer,3262
+Switzerland,1,Summer,3253
+Norway,2,Summer,3252
+Spain,2,Spring,3238
+India,7,Spring,3212
+Nigeria,6,Spring,3203
+Brazil,1,Summer,3199
+Russia,4,Spring,3199
+Finland,2,Spring,3198
+Italy,1,Summer,3186
+Germany,2,Summer,3176
+United States,4,Spring,3172
+United Kingdom,1,Fall,3169
+Malaysia,2,Spring,3158
+France,6,Spring,3143
+United Arab Emirates,6,Spring,3124
+Spain,5,Summer,3124
+United Kingdom,1,Summer,3120
+Austria,3,Spring,3117
+Ecuador,4,Spring,3106
+Norway,7,Summer,3104
+Spain,3,Summer,3098
+Luxembourg,3,Spring,3078
+Kenya,2,Spring,3059
+Italy,3,Summer,3053
+Romania,1,Spring,3052
+Czech Republic,3,Spring,3044
+Brazil,4,Spring,3017
+Belgium,2,Summer,3011
+Brazil,3,Spring,3009
+Sweden,6,Summer,2999
+Switzerland,3,Summer,2996
+United States,1,Summer,2961
+Cuba,5,Summer,2960
+Portugal,1,Spring,2957
+Brazil,2,Fall,2913
+Luxembourg,2,Spring,2899
+Brazil,2,Spring,2872
+Spain,7,Summer,2832
+Finland,5,Spring,2802
+Malaysia,5,Spring,2792
+Croatia,3,Spring,2784
+Ireland,2,Spring,2775
+Brazil,2,Winter,2774
+Panama,2,Spring,2769
+United States,5,Summer,2758
+Nigeria,4,Spring,2746
+Canada,1,Summer,2746
+Italy,6,Fall,2716
+France,4,Summer,2714
+Hungary,1,Spring,2709
+Canada,3,Summer,2695
+South Korea,7,Spring,2688
+South Africa,7,Winter,2688
+Philippines,6,Spring,2673
+United States,5,Fall,2670
+Canada,4,Spring,2664
+Poland,7,Spring,2661
+South Africa,6,Summer,2661
+Bulgaria,2,Summer,2660
+Romania,4,Spring,2657
+United Kingdom,7,Summer,2657
+Ireland,6,Spring,2644
+Japan,5,Spring,2636
+Colombia,5,Summer,2629
+Aruba,5,Summer,2627
+Nigeria,2,Spring,2619
+United Arab Emirates,7,Spring,2611
+Canada,4,Summer,2603
+Greece,6,Spring,2590
+Switzerland,1,Fall,2587
+Sweden,7,Summer,2582
+Poland,1,Spring,2579
+Austria,6,Spring,2574
+Taiwan,3,Summer,2558
+Sweden,3,Summer,2558
+Japan,4,Spring,2539
+Canada,1,Spring,2532
+Sweden,4,Spring,2523
+Poland,5,Spring,2508
+Netherlands Antilles,7,Spring,2499
+Romania,2,Spring,2483
+Sweden,4,Summer,2479
+Ghana,6,Spring,2479
+Aruba,4,Spring,2448
+Greece,2,Spring,2439
+Mexico,3,Fall,2395
+Finland,7,Spring,2395
+Ireland,7,Spring,2395
+Finland,5,Summer,2395
+France,2,Fall,2395
+Hungary,6,Summer,2395
+South Korea,3,Fall,2395
+Kenya,5,Summer,2395
+South Africa,3,Summer,2395
+Saudi Arabia,7,Summer,2395
+Thailand,1,Winter,2395
+Russia,4,Summer,2395
+Israel,2,Summer,2395
+Taiwan,2,Spring,2392
+Sweden,3,Winter,2392
+Mexico,2,Spring,2392
+Netherlands Antilles,1,Fall,2392
+Philippines,1,Spring,2392
+Turkey,5,Summer,2392
+Taiwan,7,Summer,2392
+China,2,Fall,2387
+Italy,4,Summer,2377
+Sweden,6,Spring,2376
+Canada,2,Spring,2368
+Panama,2,Summer,2347
+Portugal,7,Summer,2347
+Italy,6,Summer,2347
+China,3,Summer,2335
+Indonesia,2,Fall,2332
+Indonesia,2,Spring,2328
+Peru,7,Summer,2314
+United Arab Emirates,2,Spring,2309
+Switzerland,2,Spring,2300
+Suriname,5,Fall,2266
+Saudi Arabia,3,Spring,2266
+Spain,7,Winter,2266
+Greece,3,Summer,2266
+Serbia,5,Spring,2245
+Estonia,1,Summer,2217
+Netherlands Antilles,6,Fall,2213
+Japan,7,Fall,2212
+Germany,4,Winter,2212
+Indonesia,1,Spring,2202
+Poland,2,Spring,2186
+Kenya,4,Spring,2171
+China,3,Spring,2149
+Portugal,4,Spring,2137
+Netherlands Antilles,4,Summer,2133
+Greece,4,Summer,2059
+Germany,5,Summer,2031
+Italy,7,Summer,2018
+Switzerland,3,Spring,1995
+Portugal,3,Spring,1956
+South Africa,5,Summer,1933
+Japan,6,Spring,1933
+Croatia,7,Spring,1933
+Nigeria,3,Summer,1933
+Germany,5,Fall,1933
+Croatia,5,Spring,1933
+Sweden,1,Summer,1933
+Greece,4,Spring,1933
+Romania,5,Spring,1933
+Czech Republic,6,Summer,1933
+Ireland,5,Spring,1933
+South Korea,1,Summer,1933
+Poland,1,Fall,1933
+Taiwan,6,Summer,1933
+Spain,1,Summer,1933
+South Korea,7,Summer,1933
+United Kingdom,6,Fall,1933
+Saudi Arabia,5,Summer,1933
+Mauritius,6,Summer,1933
+Tanzania,1,Fall,1933
+Ukraine,2,Spring,1933
+South Africa,6,Fall,1933
+Japan,6,Fall,1933
+Japan,4,Summer,1933
+Portugal,5,Summer,1933
+Czech Republic,7,Summer,1933
+Finland,7,Winter,1933
+Austria,6,Summer,1912
+Hungary,6,Spring,1803
+Bahrain,4,Summer,1775
+Netherlands Antilles,6,Spring,1709
+France,5,Summer,1681
+United States,6,Fall,1659
+Sweden,5,Spring,1655
+Norway,1,Spring,1653
+Taiwan,5,Summer,1640
+South Africa,5,Spring,1594
+Czech Republic,4,Spring,1570
+South Korea,4,Summer,1556
+Sweden,3,Spring,1540
+China,1,Summer,1539
+United Arab Emirates,1,Spring,1515
+Brazil,7,Summer,1506
+Russia,6,Spring,1498
+Israel,1,Spring,1492
+France,1,Spring,1460
+South Africa,4,Summer,1426
+Japan,3,Spring,1410
+Japan,2,Fall,1408
+Philippines,7,Summer,1408
+Uganda,2,Spring,1397
+South Africa,7,Summer,1395
+Austria,7,Summer,1306
+Kuwait,4,Summer,1303
+Bahrain,3,Spring,1290
+Hong Kong,1,Spring,1274
+Malaysia,1,Spring,1268
+United States,7,Spring,1267
+South Korea,1,Spring,1266
+Russia,2,Spring,1249
+Peru,4,Summer,1244
+Ecuador,2,Spring,1240
+Brazil,7,Spring,1232
+Malaysia,6,Spring,1222
+Norway,4,Spring,1221
+Kenya,1,Spring,1217
+Aruba,4,Summer,1194
+Argentina,6,Summer,1194
+France,7,Winter,1194
+Oman,4,Spring,1185
+India,6,Spring,1167
+Thailand,4,Summer,1151
+China,4,Fall,1140
+Germany,4,Summer,1140
+Switzerland,4,Spring,1130
+Belgium,4,Spring,1127
+Japan,6,Summer,1122
+Germany,1,Fall,1122
+Cuba,2,Summer,1122
+Portugal,7,Spring,1120
+Canada,7,Spring,1116
+Oman,2,Spring,1114
+United Kingdom,3,Fall,1110
+Russia,5,Spring,1103
+Romania,1,Summer,1081
+Philippines,4,Spring,1079
+Belgium,6,Spring,1072
+Greece,1,Fall,1064
+Thailand,2,Spring,1062
+South Africa,2,Spring,1056
+Poland,1,Summer,1055
+Denmark,3,Spring,1054
+United Kingdom,7,Fall,1053
+Singapore,7,Summer,1039
+Chile,2,Spring,1035
+Canada,3,Spring,1021
+China,6,Summer,1004
+Austria,4,Spring,997
+Austria,2,Spring,996
+Canada,6,Spring,993
+Denmark,4,Summer,993
+Hungary,3,Spring,986
+Philippines,4,Summer,973
+Norway,6,Summer,973
+Netherlands Antilles,1,Spring,966
+Kuwait,3,Spring,963
+Finland,3,Spring,961
+Chile,1,Spring,938
+Ecuador,3,Spring,937
+Switzerland,6,Summer,937
+Oman,3,Spring,935
+Switzerland,5,Summer,934
+United Kingdom,4,Fall,929
+China,7,Fall,929
+Switzerland,5,Fall,927
+Portugal,2,Spring,919
+Mexico,6,Spring,912
+Portugal,5,Spring,910
+United States,3,Fall,910
+Colombia,3,Spring,902
+Denmark,3,Summer,901
+Greece,1,Spring,898
+Brazil,6,Summer,877
+Morocco,6,Summer,877
+Italy,4,Fall,877
+Spain,6,Summer,875
+Sweden,4,Fall,873
+Nigeria,1,Summer,873
+Norway,4,Summer,872
+Russia,7,Spring,862
+Denmark,1,Summer,842
+Russia,6,Summer,841
+Greece,6,Fall,841
+United Arab Emirates,5,Summer,841
+France,3,Winter,841
+Turkey,4,Summer,841
+United Arab Emirates,6,Summer,841
+Malta,5,Summer,841
+Kuwait,3,Summer,841
+Tanzania,5,Spring,841
+Rwanda,3,Spring,841
+France,1,Winter,841
+Malaysia,3,Summer,841
+France,3,Summer,836
+China,2,Summer,836
+Austria,1,Summer,831
+Thailand,2,Summer,821
+Spain,4,Summer,821
+Spain,2,Summer,794
+Argentina,7,Winter,779
+United States,2,Summer,762
+Switzerland,7,Spring,760
+Turkey,2,Spring,750
+Philippines,7,Spring,748
+United Kingdom,2,Winter,745
+Indonesia,4,Fall,745
+Switzerland,6,Fall,745
+Poland,6,Summer,745
+Russia,4,Fall,745
+Germany,6,Winter,745
+Germany,7,Fall,745
+India,7,Summer,745
+Japan,5,Fall,745
+Romania,2,Fall,745
+China,5,Summer,729
+Latvia,3,Spring,711
+Kuwait,7,Summer,711
+Netherlands Antilles,4,Spring,701
+Luxembourg,5,Spring,696
+Thailand,1,Spring,695
+Aruba,2,Summer,694
+Russia,3,Summer,688
+United States,1,Fall,688
+Turkey,5,Fall,676
+Singapore,2,Spring,668
+Sweden,7,Winter,649
+Czech Republic,6,Spring,637
+France,6,Summer,635
+Rwanda,2,Spring,630
+Taiwan,4,Spring,628
+Hungary,4,Spring,624
+Kenya,7,Spring,622
+Hungary,2,Spring,615
+India,5,Spring,607
+Brazil,5,Spring,604
+South Africa,4,Spring,598
+Philippines,2,Spring,593
+Kenya,3,Spring,589
+Ghana,5,Spring,589
+Canada,5,Summer,582
+Czech Republic,7,Spring,581
+India,4,Spring,572
+Thailand,2,Winter,572
+Russia,1,Spring,568
+Peru,4,Spring,567
+Finland,1,Spring,564
+Malaysia,7,Spring,559
+Netherlands Antilles,5,Spring,555
+Brazil,5,Fall,552
+Suriname,7,Summer,552
+Poland,5,Fall,552
+Ireland,3,Spring,552
+Switzerland,2,Summer,552
+Spain,6,Fall,552
+Singapore,6,Summer,552
+Austria,1,Spring,552
+Lithuania,6,Spring,552
+Czech Republic,2,Spring,547
+Switzerland,5,Spring,543
+Nigeria,7,Spring,534
+Panama,1,Spring,533
+Hungary,5,Spring,533
+Peru,2,Spring,531
+Belgium,1,Spring,525
+South Africa,1,Spring,524
+Namibia,1,Spring,522
+Peru,7,Spring,521
+Belgium,2,Spring,510
+South Korea,5,Spring,504
+Russia,3,Spring,502
+Argentina,4,Spring,500
+Saudi Arabia,5,Spring,495
+Singapore,3,Spring,495
+Norway,5,Summer,495
+South Korea,3,Summer,495
+United Kingdom,6,Winter,495
+Kenya,6,Spring,495
+Slovenia,7,Summer,495
+Angola,6,Spring,495
+Portugal,2,Summer,482
+Italy,2,Fall,482
+Mauritius,6,Fall,482
+India,1,Fall,482
+Malaysia,3,Fall,482
+Israel,7,Summer,482
+Romania,7,Spring,482
+Brazil,6,Spring,482
+Uganda,5,Spring,482
+Austria,2,Fall,482
+Aruba,6,Summer,482
+Peru,6,Spring,478
+Rwanda,7,Spring,475
+Kuwait,1,Spring,470
+Kuwait,2,Spring,434
+India,5,Summer,434
+Ghana,1,Spring,434
+United Kingdom,7,Winter,434
+Bulgaria,7,Spring,434
+Norway,3,Summer,434
+Finland,6,Summer,434
+Hong Kong,7,Summer,434
+Georgia,2,Spring,434
+Mexico,1,Spring,434
+Argentina,5,Fall,434
+Hong Kong,6,Spring,426
+Singapore,5,Spring,425
+Belgium,3,Spring,391
+Peru,3,Spring,388
+Peru,6,Summer,386
+Ghana,4,Spring,386
+Israel,2,Spring,386
+Ireland,1,Summer,386
+France,4,Fall,386
+Denmark,6,Summer,386
+Kuwait,4,Fall,386
+United Arab Emirates,7,Summer,386
+Canada,2,Summer,386
+Israel,7,Spring,386
+Cuba,4,Spring,386
+South Africa,1,Fall,386
+France,5,Fall,386
+Austria,6,Fall,386
+Canada,7,Summer,386
+Israel,3,Winter,382
+Thailand,7,Winter,382
+Thailand,7,Spring,382
+Brazil,4,Fall,382
+Portugal,7,Fall,370
+Malaysia,1,Winter,368
+United Arab Emirates,3,Spring,368
+Kuwait,5,Fall,368
+Netherlands Antilles,1,Summer,368
+Poland,7,Fall,368
+Kuwait,1,Summer,368
+Bulgaria,1,Spring,368
+Cuba,7,Spring,368
+Lithuania,5,Spring,368
+Croatia,6,Spring,368
+Suriname,7,Spring,362
+Hungary,2,Summer,360
+United States,2,Winter,360
+Kenya,4,Summer,360
+Italy,2,Summer,360
+South Africa,6,Spring,357
+Israel,1,Summer,339
+Germany,7,Summer,339
+Czech Republic,1,Spring,339
+Saudi Arabia,1,Spring,339
+Ukraine,7,Summer,339
+South Korea,6,Fall,339
+Philippines,3,Summer,339
+Tanzania,6,Fall,339
+Thailand,5,Summer,339
+Colombia,1,Spring,339
+Ukraine,7,Spring,336
+Argentina,1,Spring,332
+Austria,5,Spring,331
+Belgium,7,Spring,326
+Israel,4,Spring,324
+Croatia,4,Spring,312
+Turkey,3,Spring,309
+Aruba,7,Spring,306
+India,3,Spring,305
+China,7,Summer,305
+Peru,5,Spring,305
+Lebanon,3,Spring,305
+Switzerland,2,Fall,305
+Saudi Arabia,2,Spring,303
+Ecuador,1,Spring,295
+South Korea,2,Spring,291
+Uganda,3,Spring,285
+Belarus,2,Spring,285
+Greece,3,Spring,285
+Luxembourg,1,Spring,285
+Argentina,6,Spring,285
+Peru,1,Spring,283
+Israel,3,Spring,269
+Peru,3,Winter,268
+South Africa,7,Spring,264
+Mexico,7,Spring,263
+Ukraine,5,Spring,263
+Portugal,6,Spring,263
+United Arab Emirates,5,Spring,263
+Hungary,5,Summer,263
+Chile,2,Summer,263
+Hong Kong,3,Spring,263
+Ecuador,7,Spring,259
+Ireland,4,Spring,253
+Poland,6,Spring,252
+Hong Kong,5,Spring,251
+Tanzania,4,Spring,248
+Taiwan,6,Spring,246
+Tanzania,2,Winter,240
+Mexico,4,Spring,237
+Poland,4,Spring,234
+United States,4,Fall,234
+Spain,7,Fall,234
+Panama,4,Spring,234
+Sweden,5,Fall,234
+Thailand,6,Spring,225
+Singapore,5,Winter,204
+Netherlands Antilles,2,Spring,203
+South Africa,3,Spring,200
+Luxembourg,4,Spring,194
+Singapore,6,Spring,185
+Latvia,1,Spring,179
+Taiwan,7,Spring,179
+Portugal,1,Summer,179
+Greece,5,Spring,179
+Bulgaria,6,Spring,179
+Bahrain,7,Spring,179
+Colombia,5,Spring,166
+Ireland,1,Spring,165
+Italy,3,Winter,154
+Costa Rica,1,Spring,152
+Singapore,7,Spring,152
+Tanzania,2,Spring,148
+United States,4,Winter,142
+Ghana,3,Spring,142
+Cuba,1,Spring,142
+Sweden,6,Winter,142
+Russia,1,Summer,142
+Japan,7,Summer,140
+Panama,3,Spring,140
+Germany,5,Winter,140
+Hungary,7,Spring,140
+Hungary,3,Summer,140
+Hong Kong,7,Spring,137
+Poland,4,Winter,132
+Italy,7,Winter,126
+Hungary,5,Fall,126
+Taiwan,1,Spring,126
+Argentina,2,Spring,125
+Canada,3,Fall,121
+Malaysia,5,Winter,121
+Hong Kong,6,Winter,119
+Philippines,1,Winter,113
+Taiwan,5,Spring,112
+Thailand,7,Summer,110
+Netherlands Antilles,1,Winter,110
+India,4,Winter,110
+India,1,Winter,104
+Mauritius,7,Spring,102
+Kenya,2,Winter,99
+United Arab Emirates,3,Summer,99
+Serbia,4,Summer,96
+Cuba,1,Winter,96
+Norway,1,Fall,96
+Brazil,1,Spring,91
+South Korea,3,Spring,91
+Brazil,5,Winter,85
+Germany,1,Winter,82
+United Arab Emirates,4,Spring,80
+Kuwait,6,Summer,80
+Norway,1,Winter,80
+Chile,5,Spring,78
+Israel,6,Spring,76
+France,5,Winter,76
+Hong Kong,5,Winter,74
+Latvia,6,Spring,69
+China,1,Winter,69
+Chile,7,Spring,69
+Bahrain,7,Winter,65
+United States,5,Winter,63
+Tanzania,4,Winter,60
+Kuwait,7,Spring,59
+United Kingdom,1,Winter,51
+Sweden,2,Winter,51
+Bulgaria,4,Spring,48
+Namibia,6,Spring,48
+Romania,6,Spring,48
+Canada,5,Winter,47
+Austria,7,Spring,46
+Kenya,5,Spring,42
+Ukraine,3,Spring,40
+South Africa,5,Winter,34
+Ghana,4,Winter,33
+Chile,2,Winter,32
+Panama,6,Winter,30
+Panama,5,Winter,27
+Tanzania,6,Spring,20
+Brazil,4,Winter,14
+Malaysia,3,Spring,8
+United States,1,Winter,5
+United Arab Emirates,4,Winter,5
+Brazil,6,Winter,4
+France,4,Winter,3
