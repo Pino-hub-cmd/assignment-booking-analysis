@@ -17,18 +17,18 @@ def main():
 
     spark = create_spark_session()
 
-    # Read the booking data and airport data
+    # Read the booking's data and airport's data
     bookings_df = read_bookings_data(spark, args.src_file_location)
     airports_df = read_airports_data(spark, args.airport_country_mapping)
 
-    # Filter for confirmed bookings only
-    bookings_df.filter(bookings_df['bookingStatus'] == 'CONFIRMED')
+    # Filter for KLM flights departing from the Netherlands, confirmed bookings only
+    dutchies = airports_df.filter(airports_df.Country == 'Netherlands').select(['IATA'])
+    dutch_list = [row['IATA'] for row in dutchies.collect()]
 
-    # Filter for KLM flights departing from the Netherlands
-    netherlands_airports = ['AMS', 'RTM', 'EIN']
     bookings_df = bookings_df.filter(
-        (bookings_df.originAirport.isin(netherlands_airports)) &
-        (bookings_df.marketingAirline == "KL")
+        (bookings_df.originAirport.isin(dutch_list)) &
+        (bookings_df.marketingAirline == "KL") &
+        (bookings_df.bookingStatus == "CONFIRMED")
     )
 
     # Filter bookings based on the specified input date
@@ -41,6 +41,8 @@ def main():
     bookings_df = join_with_airports(bookings_df, airports_df)
 
     bookings_df = add_weekday_and_season(bookings_df)
+
+    bookings_df.show()
 
     # Aggregation to get the number of passengers per country, per day of week, per season
     result = bookings_df.groupBy("destination_country", "weekday", "season").agg(

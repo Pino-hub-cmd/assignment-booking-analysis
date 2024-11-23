@@ -88,7 +88,7 @@ def read_airports_data(spark, file_path):
     df = spark.read.csv(file_path, schema=schema, header=False, sep=",", nullValue="")
 
     df = df.select(
-        F.col("IATA").alias("AirportIATA"),
+        F.col("IATA"),
         F.col("Name"),
         F.col("City"),
         F.col("Country"),
@@ -111,7 +111,7 @@ def join_with_airports(bookings_df, airports_df):
     airports_df_alias = airports_df.alias("airports")
 
     # Perform the join for origin airport
-    df = bookings_df_alias.join(airports_df_alias, bookings_df_alias.destinationAirport == airports_df_alias.AirportIATA, "inner") \
+    df = bookings_df_alias.join(airports_df_alias, bookings_df_alias.destinationAirport == airports_df_alias.IATA, "inner") \
         .select(
         bookings_df_alias["*"],
         airports_df_alias["Country"].alias("destination_country")

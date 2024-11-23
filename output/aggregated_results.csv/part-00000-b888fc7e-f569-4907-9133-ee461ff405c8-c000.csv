@@ -1,22 +1,21 @@
 destination_country,weekday,season,num_passengers
 United Kingdom,2,Spring,7635
-United States,2,Spring,7534
 United Kingdom,1,Spring,7423
-Germany,2,Spring,7321
+United States,2,Spring,7250
+Germany,2,Spring,7236
 United Kingdom,5,Spring,7154
-France,2,Spring,7102
 United Kingdom,3,Spring,7019
-China,1,Spring,6968
+France,2,Spring,6853
 United Kingdom,4,Spring,6738
+China,1,Spring,6618
 United Kingdom,6,Spring,6543
 Germany,5,Spring,6538
 Germany,1,Spring,6388
 Germany,3,Spring,6302
-United States,3,Spring,6037
 United Kingdom,7,Spring,6022
+United States,3,Spring,5936
 France,4,Spring,5781
 United States,1,Spring,5742
-China,2,Spring,5688
 Germany,6,Spring,5612
 Germany,4,Spring,5537
 Denmark,2,Spring,5534
@@ -26,6 +25,7 @@ Italy,2,Spring,5181
 United States,6,Summer,5137
 China,6,Spring,5029
 Norway,2,Spring,4983
+China,2,Spring,4920
 United States,6,Spring,4774
 China,4,Spring,4755
 Sweden,1,Spring,4725
@@ -35,7 +35,7 @@ Spain,3,Spring,4557
 United Kingdom,2,Summer,4537
 Italy,4,Spring,4488
 Germany,6,Summer,4466
-China,7,Spring,4450
+China,7,Spring,4441
 France,3,Spring,4394
 Norway,3,Spring,4391
 France,5,Spring,4268
@@ -46,35 +46,35 @@ United Kingdom,6,Summer,4203
 Switzerland,6,Spring,4192
 Norway,7,Spring,4153
 Norway,6,Spring,4144
-Italy,7,Spring,4143
 United Kingdom,3,Summer,4141
 Spain,4,Spring,4137
 Norway,5,Spring,4134
-Spain,6,Spring,4134
-Japan,2,Spring,4099
+Italy,7,Spring,4096
 France,1,Summer,4083
 France,2,Summer,4061
+Japan,2,Spring,3978
 United Kingdom,5,Summer,3977
 Spain,1,Spring,3969
 France,7,Spring,3964
-Spain,7,Spring,3958
 Italy,3,Spring,3916
 United States,3,Summer,3890
+Spain,6,Spring,3870
 United States,7,Summer,3837
 Tanzania,3,Fall,3831
-Sweden,2,Spring,3821
 Spain,5,Spring,3778
+Sweden,2,Spring,3730
 India,2,Spring,3706
 Canada,5,Spring,3699
 Switzerland,1,Spring,3666
 Japan,1,Spring,3663
 Denmark,4,Spring,3632
+Spain,7,Spring,3621
 Germany,3,Summer,3612
 Poland,5,Summer,3606
 United Kingdom,4,Summer,3606
 Finland,6,Spring,3604
 Taiwan,3,Spring,3527
-Denmark,6,Spring,3525
+Denmark,6,Spring,3516
 Nigeria,3,Spring,3512
 Denmark,5,Spring,3483
 Denmark,7,Spring,3482
@@ -82,13 +82,12 @@ China,5,Spring,3471
 United Arab Emirates,5,Fall,3462
 Italy,6,Spring,3450
 India,1,Spring,3444
-Germany,7,Spring,3424
 United States,4,Summer,3396
 South Korea,4,Spring,3384
+Germany,7,Spring,3372
 Kuwait,4,Spring,3360
 Sweden,7,Spring,3360
 Germany,1,Summer,3348
-Singapore,1,Spring,3321
 Poland,3,Spring,3303
 United Arab Emirates,1,Summer,3272
 Philippines,1,Summer,3262
@@ -110,14 +109,13 @@ United Arab Emirates,6,Spring,3124
 Spain,5,Summer,3124
 United Kingdom,1,Summer,3120
 Austria,3,Spring,3117
-Ecuador,4,Spring,3106
 Norway,7,Summer,3104
 Spain,3,Summer,3098
+Singapore,1,Spring,3091
 Luxembourg,3,Spring,3078
 Kenya,2,Spring,3059
 Italy,3,Summer,3053
 Romania,1,Spring,3052
-Czech Republic,3,Spring,3044
 Brazil,4,Spring,3017
 Belgium,2,Summer,3011
 Brazil,3,Spring,3009
@@ -162,21 +160,20 @@ United Arab Emirates,7,Spring,2611
 Canada,4,Summer,2603
 Greece,6,Spring,2590
 Switzerland,1,Fall,2587
+Czech Republic,3,Spring,2583
 Sweden,7,Summer,2582
 Poland,1,Spring,2579
 Austria,6,Spring,2574
 Taiwan,3,Summer,2558
 Sweden,3,Summer,2558
 Japan,4,Spring,2539
-Canada,1,Spring,2532
 Sweden,4,Spring,2523
 Poland,5,Spring,2508
 Netherlands Antilles,7,Spring,2499
-Romania,2,Spring,2483
+Canada,1,Spring,2485
 Sweden,4,Summer,2479
 Ghana,6,Spring,2479
 Aruba,4,Spring,2448
-Greece,2,Spring,2439
 Mexico,3,Fall,2395
 Finland,7,Spring,2395
 Ireland,7,Spring,2395
@@ -200,10 +197,10 @@ Taiwan,7,Summer,2392
 China,2,Fall,2387
 Italy,4,Summer,2377
 Sweden,6,Spring,2376
-Canada,2,Spring,2368
 Panama,2,Summer,2347
 Portugal,7,Summer,2347
 Italy,6,Summer,2347
+Canada,2,Spring,2337
 China,3,Summer,2335
 Indonesia,2,Fall,2332
 Indonesia,2,Spring,2328
@@ -222,6 +219,7 @@ Germany,4,Winter,2212
 Indonesia,1,Spring,2202
 Poland,2,Spring,2186
 Kenya,4,Spring,2171
+Romania,2,Spring,2164
 China,3,Spring,2149
 Portugal,4,Spring,2137
 Netherlands Antilles,4,Summer,2133
@@ -271,21 +269,22 @@ Czech Republic,4,Spring,1570
 South Korea,4,Summer,1556
 Sweden,3,Spring,1540
 China,1,Summer,1539
-United Arab Emirates,1,Spring,1515
 Brazil,7,Summer,1506
 Russia,6,Spring,1498
+Greece,2,Spring,1496
 Israel,1,Spring,1492
 France,1,Spring,1460
+United Arab Emirates,1,Spring,1454
 South Africa,4,Summer,1426
 Japan,3,Spring,1410
 Japan,2,Fall,1408
 Philippines,7,Summer,1408
+Ecuador,4,Spring,1408
 Uganda,2,Spring,1397
 South Africa,7,Summer,1395
 Austria,7,Summer,1306
 Kuwait,4,Summer,1303
 Bahrain,3,Spring,1290
-Hong Kong,1,Spring,1274
 Malaysia,1,Spring,1268
 United States,7,Spring,1267
 South Korea,1,Spring,1266
@@ -408,7 +407,6 @@ Singapore,2,Spring,668
 Sweden,7,Winter,649
 Czech Republic,6,Spring,637
 France,6,Summer,635
-Rwanda,2,Spring,630
 Taiwan,4,Spring,628
 Hungary,4,Spring,624
 Kenya,7,Spring,622
@@ -580,6 +578,7 @@ Spain,7,Fall,234
 Panama,4,Spring,234
 Sweden,5,Fall,234
 Thailand,6,Spring,225
+Rwanda,2,Spring,218
 Singapore,5,Winter,204
 Netherlands Antilles,2,Spring,203
 South Africa,3,Spring,200
@@ -597,7 +596,6 @@ Italy,3,Winter,154
 Costa Rica,1,Spring,152
 Singapore,7,Spring,152
 Tanzania,2,Spring,148
-United States,4,Winter,142
 Ghana,3,Spring,142
 Cuba,1,Spring,142
 Sweden,6,Winter,142
@@ -621,6 +619,7 @@ Taiwan,5,Spring,112
 Thailand,7,Summer,110
 Netherlands Antilles,1,Winter,110
 India,4,Winter,110
+Hong Kong,1,Spring,105
 India,1,Winter,104
 Mauritius,7,Spring,102
 Kenya,2,Winter,99
