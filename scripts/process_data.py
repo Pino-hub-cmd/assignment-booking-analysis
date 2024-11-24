@@ -16,7 +16,7 @@ def main():
 
     spark = create_spark_session()
 
-    # Read the booking's data and airport's data
+    # Read data
     bookings_df = read_bookings_data(spark, args.src_file_location)
     airports_df = read_airports_data(spark, args.airport_country_mapping)
 

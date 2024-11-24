@@ -1,7 +1,12 @@
 from pyspark.sql import functions as F
-from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, ArrayType
+import logging
+
 
 def create_spark_session():
+    """
+    Creates spark session
+    """
     from pyspark.sql import SparkSession
     spark = SparkSession.builder \
         .appName("KLM Booking Analysis") \
@@ -9,60 +14,122 @@ def create_spark_session():
         .getOrCreate()
     return spark
 
+
 def read_bookings_data(spark, bookings_path):
     """
-    Reads and flattens the booking data
+    Reads and flat booking data
     """
-    df = spark.read.json(bookings_path)
+    # Schema passengersList
+    passengers_schema = ArrayType(StructType([
+        StructField("uci", StringType(), True),
+        StructField("age", IntegerType(), True),
+        StructField("passengerType", StringType(), True)
+    ]))
 
-    print('Schema of the raw json booking with some sample;')
-    df.printSchema() #such a json!
+    # Schema productsList
+    products_schema = ArrayType(StructType([
+        StructField("bookingStatus", StringType(), True),
+        StructField("flight", StructType([
+            StructField("originAirport", StringType(), True),
+            StructField("destinationAirport", StringType(), True),
+            StructField("departureDate", StringType(), True),
+            StructField("arrivalDate", StringType(), True),
+            StructField("operatingAirline", StringType(), True),
+            StructField("marketingAirline", StringType(), True)
+        ]))
+    ]))
 
-    passengers_df = df.select(
-        'event.DataElement.travelrecord.envelopNumber',
-        'event.DataElement.travelrecord.creationDate',
-        'event.DataElement.travelrecord.nbPassengers',
-        'event.DataElement.travelrecord.isMarketingBlockspace',
-        'event.DataElement.travelrecord.isTechnicalLastUpdater',
-        'event.DataElement.travelrecord.passengersList'
-    ).withColumn('passenger', F.explode('passengersList')).drop('passengersList')
+    # Define a schema for the entire JSON
+    schema = StructType([
+        StructField("event", StructType([
+            StructField("DataElement", StructType([
+                StructField("travelrecord", StructType([
+                    StructField("envelopNumber", StringType(), True),
+                    StructField("creationDate", StringType(), True),
+                    StructField("nbPassengers", IntegerType(), True),
+                    StructField("isMarketingBlockspace", StringType(), True),
+                    StructField("isTechnicalLastUpdater", StringType(), True),
+                    StructField("passengersList", StringType(), True),  # As string initially
+                    StructField("productsList", StringType(), True)  # As string initially
+                ]))
+            ]))
+        ]))
+    ])
 
-    passengers_df = passengers_df.select(
-        'envelopNumber',
-        'nbPassengers',
-        'passenger.uci',
-        'passenger.tattoo',
-        'passenger.age',
-        'passenger.passengerType'
-    )
+    try:
+        # Read JSON with defined schema and handle malformed records gracefully
+        df = spark.read.option("mode", "DROPMALFORMED") \
+            .schema(schema) \
+            .json(bookings_path)
 
-    # Exploding the products list to flatten flight details
-    products_df = df.select(
-        'event.DataElement.travelrecord.envelopNumber',
-        'event.DataElement.travelrecord.productsList'
-    ).withColumn('product', F.explode('productsList')).drop('productsList')
+        # Check the schema and first few rows to debug
+        #df.printSchema()
+        #df.show(5, truncate=False)
 
-    # Flatten product details
-    products_df = products_df.select(
-        'envelopNumber',
-        'product.bookingStatus',
-        'product.flight.originAirport',
-        'product.flight.destinationAirport',
-        'product.flight.departureDate',
-        'product.flight.arrivalDate',
-        'product.flight.operatingAirline',
-        'product.flight.marketingAirline',
-    )
+        # Check the content of productsList and passengersList before parsing
+        df.select("event.DataElement.travelrecord.productsList", "event.DataElement.travelrecord.passengersList").show(5, truncate=False)
 
-    # Join the passenger and product data on envelopNumber
-    df_flat = passengers_df.join(products_df, 'envelopNumber', 'inner')
+        # Manually check if productsList is a JSON string that can be parsed
+        df = df.withColumn("parsed_productsList", F.when(
+            F.col("event.DataElement.travelrecord.productsList").rlike(r"^\[.*\]$"),  # Regex to match valid JSON arrays
+            F.from_json("event.DataElement.travelrecord.productsList", products_schema)
+        ).otherwise(None))  # If it's not a valid JSON array, set it as None
 
-    return df_flat
+        #df.show(5, truncate=False)
 
+        # Parse the passengersList into an array of structs
+        df = df.withColumn("passengersList", F.from_json("event.DataElement.travelrecord.passengersList", passengers_schema))
+
+        #df.printSchema()
+        #df.show(5, truncate=False)
+
+        passengers_df = df.select(
+            'event.DataElement.travelrecord.envelopNumber',
+            'event.DataElement.travelrecord.creationDate',
+            'event.DataElement.travelrecord.nbPassengers',
+            'event.DataElement.travelrecord.isMarketingBlockspace',
+            'event.DataElement.travelrecord.isTechnicalLastUpdater',
+            'passengersList'
+        ).withColumn('passenger', F.explode('passengersList')).drop('passengersList')
+
+        passengers_df = passengers_df.select(
+            'envelopNumber',
+            'nbPassengers',
+            'passenger.uci',
+            'passenger.age',
+            'passenger.passengerType'
+        )
+
+        # Exploding products list
+        products_df = df.select(
+            'event.DataElement.travelrecord.envelopNumber',
+            'parsed_productsList'
+        ).withColumn('product', F.explode('parsed_productsList')).drop('parsed_productsList')
+
+        # Extracting flight-related details
+        products_df = products_df.select(
+            'envelopNumber',
+            'product.bookingStatus',
+            'product.flight.originAirport',
+            'product.flight.destinationAirport',
+            'product.flight.departureDate',
+            'product.flight.arrivalDate',
+            'product.flight.operatingAirline',
+            'product.flight.marketingAirline',
+        )
+
+        # Join the passenger and flight details on envelopNumber
+        df_flat = passengers_df.join(products_df, 'envelopNumber', 'inner')
+
+        return df_flat
+
+    except Exception as e:
+        logging.error(f"Error reading or processing JSON data: {e}")
+        return None
 
 def read_airports_data(spark, file_path):
     """
-    Read the airports data and flatten the structure, renaming necessary columns.
+    Read and flats airports data
     """
     # Defined schema from md file
     schema = StructType([
@@ -94,63 +161,13 @@ def join_with_airports(bookings_df, airports_df):
     bookings_df_alias = bookings_df.alias("bookings")
     airports_df_alias = airports_df.alias("airports")
 
-    # Perform the join for origin airport
+    # joins by airport code
     df = bookings_df_alias.join(airports_df_alias, bookings_df_alias.destinationAirport == airports_df_alias.IATA, "inner") \
         .select(
         bookings_df_alias["*"],
         airports_df_alias["Country"].alias("destination_country")
     )
     return df
-
-def add_weekday_and_season(df):
-    """
-    Add columns for the day of the week and season based on the departure date.
-    """
-    # Convert departureDate to timestamp to extract weekday
-    df = df.withColumn("departureDate", F.to_timestamp("departureDate"))
-
-    # Extract the weekday (0=Sunday, 1=Monday, ..., 6=Saturday)
-    df = df.withColumn("weekday", F.dayofweek("departureDate"))
-
-    # Assuming season is based on months (example for Northern Hemisphere):
-    df = df.withColumn(
-        "season",
-        F.when((F.month("departureDate") >= 3) & (F.month("departureDate") <= 5), "Spring")
-        .when((F.month("departureDate") >= 6) & (F.month("departureDate") <= 8), "Summer")
-        .when((F.month("departureDate") >= 9) & (F.month("departureDate") <= 11), "Fall")
-        .otherwise("Winter")
-    )
-    return df
-
-def process_and_aggregate(bookings_df):
-    # Ensure 'departureDate' is in the correct format
-    bookings_df = bookings_df.withColumn('departureDate', F.to_date('departureDate', 'yyyy-MM-dd'))
-
-    # Add weekday and season columns
-    bookings_df = bookings_df.withColumn('weekday', F.dayofweek('departureDate')) \
-        .withColumn('season',
-                    F.when((F.month('departureDate') >= 3) & (F.month('departureDate') <= 5), 'Spring')
-                    .when((F.month('departureDate') >= 6) & (F.month('departureDate') <= 8), 'Summer')
-                    .when((F.month('departureDate') >= 9) & (F.month('departureDate') <= 11), 'Fall')
-                    .otherwise('Winter'))
-
-    # Group by origin_country, destination_country, weekday, and season, then count distinct passengers
-    result = bookings_df.groupBy('origin_country', 'destination_country', 'weekday', 'season') \
-        .agg(F.countDistinct('uci').alias('num_passengers')) \
-        .orderBy(F.desc('num_passengers'))
-
-    return result
-
-def filter_confirmed_bookings(bookings_df):
-    # Filter the bookings dataframe to include only those with confirmed booking status
-    return bookings_df.filter(bookings_df.bookingStatus == 'CONFIRMED')
-
-def filter_flights_from_netherlands(bookings_df):
-    # Define a list of airport codes for the Netherlands
-    netherlands_airports = ['AMS', 'RTM', 'EIN']
-
-    # Filter the bookings to only include flights departing from these airports
-    return bookings_df.filter(bookings_df.originAirport.isin(netherlands_airports))
 
 
 def add_weekday_and_season(bookings_df):
@@ -202,5 +219,5 @@ def add_passenger_counts(df):
         F.sum("num_children").alias("num_children")  # Sum of children
     ) \
         .orderBy(F.desc("num_passengers"))
-    aggregated_df.show()
+
     return aggregated_df
