@@ -173,8 +173,34 @@ def add_weekday_and_season(bookings_df):
         "season",
         F.when((F.month(bookings_df.departureDate) >= 3) & (F.month(bookings_df.departureDate) <= 5), "Spring")
         .when((F.month(bookings_df.departureDate) >= 6) & (F.month(bookings_df.departureDate) <= 8), "Summer")
-        .when((F.month(bookings_df.departureDate) >= 9) & (F.month(bookings_df.departureDate) <= 11), "Fall")
+        .when((F.month(bookings_df.departureDate) >= 9) & (F.month(bookings_df.departureDate) <= 11), "Autumn")
         .otherwise("Winter")
     )
 
     return bookings_df
+
+def add_passenger_counts(df):
+    # Create columns for the number of adults and children
+    df = df.withColumn(
+        "num_adults",
+        F.when(df["passengerType"] == "ADT", 1).otherwise(0)
+    )
+    df = df.withColumn(
+        "num_children",
+        F.when(df["passengerType"] == "CHD", 1).otherwise(0)
+    )
+
+    # Calculate total passengers as the sum of adults and children
+    df = df.withColumn("total_passengers", df["num_adults"] + df["num_children"])
+
+    # Aggregate by destination_country, weekday, and season, then sum adults/children
+    aggregated_df = df.groupBy("destination_country", "weekday", "season") \
+        .agg(
+        F.sum("total_passengers").alias("num_passengers"),  # Sum of adults and children
+        F.avg("age").alias("avg_age"),  # Calculate the average age per group
+        F.sum("num_adults").alias("num_adults"),  # Sum of adults
+        F.sum("num_children").alias("num_children")  # Sum of children
+    ) \
+        .orderBy(F.desc("num_passengers"))
+    aggregated_df.show()
+    return aggregated_df

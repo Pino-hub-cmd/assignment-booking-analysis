@@ -1,6 +1,5 @@
-from utils import create_spark_session, read_bookings_data, read_airports_data, filter_confirmed_bookings, join_with_airports, add_weekday_and_season
+from utils import *
 from pyspark.sql import functions as F
-from pyspark.sql.types import DateType
 import argparse
 
 def main():
@@ -31,33 +30,30 @@ def main():
         (bookings_df.bookingStatus == "CONFIRMED")
     )
 
-    # Filter bookings based on the specified input date
+    # Filter on specified input date
     bookings_df = bookings_df.filter(
         (F.to_date(bookings_df.departureDate, "yyyy-MM-dd") >= F.to_date(F.lit(args.start_date), "yyyy-MM-dd")) &
         (F.to_date(bookings_df.departureDate, "yyyy-MM-dd") <= F.to_date(F.lit(args.end_date), "yyyy-MM-dd"))
     )
 
-    # Join the bookings data with airport country mapping
+    # Join the bookings data with airports dimensions
     bookings_df = join_with_airports(bookings_df, airports_df)
-
+    # add weekdays, seasons
     bookings_df = add_weekday_and_season(bookings_df)
+    # counts adult, children and total
+    bookings_df = add_passenger_counts(bookings_df)
 
-    bookings_df.show()
-
-    # Aggregation to get the number of passengers per country, per day of week, per season
-    # Did a tentative to include age and type...
     result = bookings_df.groupBy("destination_country", "weekday", "season").agg(
-        F.countDistinct("uci").alias("num_passengers"),
-        F.avg("age").alias("avg_age"),  # Calculate the average age per group
-        F.sum(F.when(bookings_df.passengerType == 'Adt', 1).otherwise(0)).alias("num_adults"),  #  adults
-        F.sum(F.when(bookings_df.passengerType == 'Chd', 1).otherwise(0)).alias("num_children")  # children
-    ).orderBy(F.desc("num_passengers"))
+        F.sum("num_passengers").alias("total_passengers_count"),
+        F.avg("avg_age"),  # average age
+        F.sum("num_adults").alias("num_adults"),  # adults
+        F.sum("num_children").alias("num_children")  # children
+    ).orderBy(F.desc("total_passengers_count"))
 
     result.coalesce(1).write.mode("overwrite").csv(args.aggregated_output_file, header=True)
 
     print(f"Aggregation complete, results saved to: {args.aggregated_output_file}")
     result.show()
-
 
 if __name__ == "__main__":
     main()
