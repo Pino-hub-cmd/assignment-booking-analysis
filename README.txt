@@ -37,7 +37,7 @@ only showing top 20 rows
 
 
 to run the solution:
-1 locally, clone the solution from the branch feature/pinoHasFun
+1 clone the solution
 2 from terminal located at the project root: python scripts/process_dataTest.py \
                      --src_file_location data/bookings/booking.json \
                      --airport_country_mapping data/airports/airports.dat \
