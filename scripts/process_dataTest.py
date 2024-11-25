@@ -23,8 +23,7 @@ def main():
     # Parse and re partition by departure date
     bookings_df = read_bookings_data(spark, args.src_file_location)
     bookings_df = join_with_airports(bookings_df, airports_df)
-
-    # Filter for KLM flights departing from the Netherlands, confirmed bookings only
+    # only dutch airports
     dutchies = airports_df.filter(airports_df.Country == 'Netherlands').select(['IATA'])
     dutch_list = [dutch['IATA'] for dutch in dutchies.collect()]
 
